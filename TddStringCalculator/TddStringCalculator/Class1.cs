@@ -17,6 +17,18 @@ namespace TddStringCalculator
 
             Assert.That(actualSum, Is.EqualTo(expectedSum));
         }
+
+        [Test]
+        public void IfInputNullEmptyWhiteSpace_Return_0()
+        {
+            var input = string.Empty;
+            var expectedSum = 0;
+
+            var actualSum = new StringCalculator().SumFromString(input);
+
+
+            Assert.That(actualSum, Is.EqualTo(expectedSum));
+        }
     }
 
     public class StringCalculator
