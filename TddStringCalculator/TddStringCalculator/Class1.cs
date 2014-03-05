@@ -35,6 +35,8 @@ namespace TddStringCalculator
     {
         public object SumFromString(string input)
         {
+            if (string.IsNullOrWhiteSpace(input)) return 0;
+
             var values = input.Split(',');
             return values.Select(x => int.Parse(x)).Sum();
         }
