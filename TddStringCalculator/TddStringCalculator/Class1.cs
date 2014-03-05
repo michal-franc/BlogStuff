@@ -12,11 +12,19 @@ namespace TddStringCalculator
             var input = "1,2,3,4,5";
             var expectedSum = 15;
 
-            var values = input.Split(',');
+            var actualSum = new StringCalculator().SumFromString(input);
 
-            var actualSum = values.Select(x => int.Parse(x)).Sum();
 
             Assert.That(actualSum, Is.EqualTo(expectedSum));
+        }
+    }
+
+    public class StringCalculator
+    {
+        public object SumFromString(string input)
+        {
+            var values = input.Split(',');
+            return values.Select(x => int.Parse(x)).Sum();
         }
     }
 }
