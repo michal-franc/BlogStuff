@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NUnit.Framework;
 
 namespace TddStringCalculator
@@ -29,6 +30,19 @@ namespace TddStringCalculator
 
             Assert.That(actualSum, Is.EqualTo(expectedSum));
         }
+
+        [Test]
+        public void IfInputNotFormatted_throws()
+        {
+            var input = "1,2,3,4,,,5";
+
+            Assert.Throws<InputStringNotFormatedProperly>(() => new StringCalculator().SumFromString(input));
+        }
+    }
+
+    public class InputStringNotFormatedProperly : Exception
+    {
+
     }
 
     public class StringCalculator
