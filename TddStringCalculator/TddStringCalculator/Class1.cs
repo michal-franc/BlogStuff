@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.Serialization;
 using NUnit.Framework;
 
 namespace TddStringCalculator
@@ -40,8 +41,18 @@ namespace TddStringCalculator
         }
     }
 
+    [Serializable]
     public class InputStringNotFormatedProperly : Exception
     {
+        public InputStringNotFormatedProperly() { } 
+
+        public InputStringNotFormatedProperly(string message) :base(message) { } 
+
+        public InputStringNotFormatedProperly(string message, Exception innerException)
+            :base(message, innerException) { }
+
+        public InputStringNotFormatedProperly(SerializationInfo info, StreamingContext context)
+            :base(info, context) { }
 
     }
 
@@ -51,8 +62,15 @@ namespace TddStringCalculator
         {
             if (string.IsNullOrWhiteSpace(input)) return 0;
 
-            var values = input.Split(',');
-            return values.Select(x => int.Parse(x)).Sum();
+            try
+            {
+                var values = input.Split(',');
+                return values.Select(x => int.Parse(x)).Sum();
+            }
+            catch (FormatException ex)
+            {
+                throw new InputStringNotFormatedProperly(string.Format("Unexpected format input - {0}", input), ex);
+            }
         }
     }
 }
