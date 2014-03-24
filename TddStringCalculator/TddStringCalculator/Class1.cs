@@ -6,15 +6,23 @@ using NUnit.Framework;
 namespace TddStringCalculator
 {
     [TestFixture]
-    public class Class1 
+    public class StringCalculatorTests
     {
+        private StringCalculator stringCalculator;
+
+        [SetUp]
+        public void SetUp()
+        {
+            stringCalculator = new StringCalculator();
+        }
+
         [Test]
         public void ICanParseString_AndSumUpValues()
         {
             var input = "1,2,3,4,5";
             var expectedSum = 15;
 
-            var actualSum = new StringCalculator().SumFromString(input);
+            int actualSum = stringCalculator.SumFromString(input);
 
 
             Assert.That(actualSum, Is.EqualTo(expectedSum));
@@ -26,7 +34,7 @@ namespace TddStringCalculator
             var input = string.Empty;
             var expectedSum = 0;
 
-            var actualSum = new StringCalculator().SumFromString(input);
+            int actualSum = stringCalculator.SumFromString(input);
 
 
             Assert.That(actualSum, Is.EqualTo(expectedSum));
@@ -58,7 +66,7 @@ namespace TddStringCalculator
 
     public class StringCalculator
     {
-        public object SumFromString(string input)
+        public int SumFromString(string input)
         {
             if (string.IsNullOrWhiteSpace(input)) return 0;
 
@@ -73,4 +81,6 @@ namespace TddStringCalculator
             }
         }
     }
+
+    //todo - var to int
 }
