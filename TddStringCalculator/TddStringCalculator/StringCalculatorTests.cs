@@ -42,7 +42,7 @@ namespace TddStringCalculator
         {
             var input = "1,2,3,4,,,5";
 
-            Assert.Throws<InputStringNotFormatedProperly>(() => new StringCalculator().SumFromString(input));
+            Assert.Throws<InputStringNotFormatedProperly>(() => stringCalculator.SumFromString(input));
         }
     }
 }
