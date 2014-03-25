@@ -50,6 +50,18 @@ namespace TddStringCalculator
         }
 
         [Test]
+        public void Support_parametrisied_delimeter()
+        {
+            var input = "//;\n1;2;3;4";
+            var expectedSum = 10;
+
+            int actualSum = stringCalculator.SumFromString(input);
+
+
+            Assert.That(actualSum, Is.EqualTo(expectedSum));
+        }
+
+        [Test]
         public void IfInputNotFormatted_throws()
         {
             var input = "1,2,3,4,,,5";
