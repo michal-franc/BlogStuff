@@ -11,7 +11,7 @@ namespace TddStringCalculator
 
             try
             {
-                var values = input.Split(',');
+                var values = input.Split(',','\n');
                 return values.Select(x => int.Parse(x)).Sum();
             }
             catch (FormatException ex)
