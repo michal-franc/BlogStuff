@@ -10,6 +10,21 @@ namespace TddStringCalculator
         {
             if (string.IsNullOrWhiteSpace(input)) return 0;
 
+            var delimeters = ExtractDelimeters(ref input);
+
+            try
+            {
+                var values = input.Split(delimeters.ToArray());
+                return values.Select(x => int.Parse(x)).Sum();
+            }
+            catch (FormatException ex)
+            {
+                throw new InputStringNotFormatedProperly(string.Format("Unexpected format input - {0}", input), ex);
+            }
+        }
+
+        private List<char> ExtractDelimeters(ref string input)
+        {
             var delimeterIndex = input.IndexOf("//");
 
             var delimeters = new List<char>();
@@ -25,15 +40,7 @@ namespace TddStringCalculator
                 delimeters.Add('\n');
             }
 
-            try
-            {
-                var values = input.Split(delimeters.ToArray());
-                return values.Select(x => int.Parse(x)).Sum();
-            }
-            catch (FormatException ex)
-            {
-                throw new InputStringNotFormatedProperly(string.Format("Unexpected format input - {0}", input), ex);
-            }
+            return delimeters;
         }
     }
 }
