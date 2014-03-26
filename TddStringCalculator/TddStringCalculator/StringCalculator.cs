@@ -11,7 +11,11 @@ namespace TddStringCalculator
             if (string.IsNullOrWhiteSpace(input)) return 0;
 
             var delimeters = ExtractDelimeters(ref input);
+            return this.ParseSumValues(delimeters, input);
+        }
 
+        private int ParseSumValues(List<char> delimeters, string input)
+        {
             try
             {
                 var values = input.Split(delimeters.ToArray());
