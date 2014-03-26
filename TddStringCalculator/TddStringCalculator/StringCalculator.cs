@@ -14,7 +14,7 @@ namespace TddStringCalculator
             return this.ParseSumValues(delimeters, input);
         }
 
-        private int ParseSumValues(List<char> delimeters, string input)
+        private int ParseSumValues(IEnumerable<char> delimeters, string input)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace TddStringCalculator
             }
         }
 
-        private List<char> ExtractDelimeters(ref string input)
+        private IEnumerable<char> ExtractDelimeters(ref string input)
         {
             var delimeterIndex = input.IndexOf("//");
 
