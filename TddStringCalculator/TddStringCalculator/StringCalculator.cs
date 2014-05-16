@@ -18,8 +18,16 @@ namespace TddStringCalculator
         {
             try
             {
-                var values = input.Split(delimeters.ToArray());
-                return values.Select(x => int.Parse(x)).Sum();
+                var values = input.Split(delimeters.ToArray()).Select(x => int.Parse(x));
+
+                var negativeValues = values.Where(x => x < 0);
+
+                if (negativeValues.Any())
+                {
+                    throw new ArgumentException(string.Format("values '{0}' not supported", string.Join(",", negativeValues)));
+                }
+
+                return values.Sum();
             }
             catch (FormatException ex)
             {
