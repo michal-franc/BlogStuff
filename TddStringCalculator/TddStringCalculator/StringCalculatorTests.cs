@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 
 namespace TddStringCalculator
@@ -67,6 +68,16 @@ namespace TddStringCalculator
             var input = "1,2,3,4,,,5";
 
             Assert.Throws<InputStringNotFormatedProperly>(() => stringCalculator.SumFromString(input));
+        }
+
+        [Test]
+        public void Negative_values_not_supported_throws()
+        {
+            var calculator = new StringCalculator();
+            var value = "1,2,-3,-4";
+
+            var ex = Assert.Throws<ArgumentException>(() => calculator.SumFromString(value));
+            Assert.That(ex.Message, Is.EqualTo("values '-3,-4' not supported"));
         }
     }
 }
