@@ -79,5 +79,18 @@ namespace TddStringCalculator
             var ex = Assert.Throws<ArgumentException>(() => calculator.SumFromString(value));
             Assert.That(ex.Message, Is.EqualTo("values '-3,-4' not supported"));
         }
+
+        [Test]
+        public void Sum_ignores_number_greater_than_1000()
+        {
+            var calculator = new StringCalculator();
+            var value = "1,2000,1000,1003";
+
+            var actual = calculator.SumFromString(value);
+
+            var expected = 1;
+
+            Assert.That(actual, Is.EqualTo(expected));
+        }
     }
 }
