@@ -27,7 +27,7 @@ namespace TddStringCalculator
                     throw new ArgumentException(string.Format("values '{0}' not supported", string.Join(",", negativeValues)));
                 }
 
-                return values.Sum();
+                return values.Where(x => x < 1000).Sum();
             }
             catch (FormatException ex)
             {
