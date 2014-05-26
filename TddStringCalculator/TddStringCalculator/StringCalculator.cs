@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace TddStringCalculator
 {
     public class StringCalculator
     {
+        private readonly Regex DelimeterRegex = new Regex("//(?<delimeter>.*)\n(?<value>.*)", RegexOptions.Compiled);
+
         public int SumFromString(string input)
         {
             if (string.IsNullOrWhiteSpace(input)) return 0;
@@ -14,11 +17,11 @@ namespace TddStringCalculator
             return this.ParseSumValues(delimeters, input);
         }
 
-        private int ParseSumValues(IEnumerable<char> delimeters, string input)
+        private int ParseSumValues(IEnumerable<string> delimeters, string input)
         {
             try
             {
-                var values = input.Split(delimeters.ToArray()).Select(x => int.Parse(x));
+                var values = input.Split(delimeters.ToArray(), StringSplitOptions.None).Select(x => int.Parse(x));
 
                 var negativeValues = values.Where(x => x < 0);
 
@@ -35,21 +38,24 @@ namespace TddStringCalculator
             }
         }
 
-        private IEnumerable<char> ExtractDelimeters(ref string input)
+        private IEnumerable<string> ExtractDelimeters(ref string input)
         {
             var delimeterIndex = input.IndexOf("//");
 
-            var delimeters = new List<char>();
+            var delimeters = new List<string>();
 
             if (delimeterIndex >= 0)
             {
-                delimeters.Add(input[delimeterIndex + 2]);
-                input = input.Substring(4);
+            var matches = DelimeterRegex.Matches(input);
+
+                var delim = matches.OfType<Match>().Select(m => m.Groups["delimeter"].Value).Single();
+                input = matches.OfType<Match>().Select(m => m.Groups["value"].Value).Single();
+                delimeters.Add(delim);
             }
             else
             {
-                delimeters.Add(',');
-                delimeters.Add('\n');
+                delimeters.Add(",");
+                delimeters.Add("\n");
             }
 
             return delimeters;
