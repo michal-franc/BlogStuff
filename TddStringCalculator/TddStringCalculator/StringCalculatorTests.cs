@@ -92,5 +92,18 @@ namespace TddStringCalculator
 
             Assert.That(actual, Is.EqualTo(expected));
         }
+
+        [Test]
+        public void MultiCharDelimeter_Is_Supported()
+        {
+            var calculator = new StringCalculator();
+            var value = "//;;;\n1;;;2;;;3;;;4";
+
+            var actual = calculator.SumFromString(value);
+
+            var expected = 10;
+
+            Assert.That(actual, Is.EqualTo(expected));
+        }
     }
 }
