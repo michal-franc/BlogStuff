@@ -48,10 +48,10 @@ namespace TddStringCalculator
 
             if (delimeterIndex >= 0)
             {
-            var matches = DelimeterRegex.Matches(input);
+                var matches = DelimeterRegex.Matches(input);
 
-                var delim = matches.OfType<Match>().Select(m => m.Groups["delimeter"].Value).Single();
-                extractedInput = matches.OfType<Match>().Select(m => m.Groups["value"].Value).Single();
+                var delim = this.ExtractRegexpGroup(matches, "delimeter");
+                extractedInput = this.ExtractRegexpGroup(matches, "value");
                 delimeters.Add(delim);
             }
             else
@@ -61,6 +61,11 @@ namespace TddStringCalculator
             }
 
             return new Tuple<IEnumerable<string>, string>(delimeters, extractedInput);
+        }
+
+        private string ExtractRegexpGroup(MatchCollection regexMatches, string groupName)
+        {
+            return regexMatches.OfType<Match>().Select(m => m.Groups[groupName].Value).Single();
         }
     }
 }
