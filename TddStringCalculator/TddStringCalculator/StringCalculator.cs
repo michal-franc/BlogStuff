@@ -13,8 +13,8 @@ namespace TddStringCalculator
         {
             if (string.IsNullOrWhiteSpace(input)) return 0;
 
-            var delimeters = ExtractDelimeters(ref input);
-            return this.ParseSumValues(delimeters, input);
+            var extractedData = ExtractDelimeters(input);
+            return this.ParseSumValues(extractedData.Item1, extractedData.Item2);
         }
 
         private int ParseSumValues(IEnumerable<string> delimeters, string input)
@@ -38,18 +38,20 @@ namespace TddStringCalculator
             }
         }
 
-        private IEnumerable<string> ExtractDelimeters(ref string input)
+        private Tuple<IEnumerable<string>, string> ExtractDelimeters(string input)
         {
             var delimeterIndex = input.IndexOf("//");
 
             var delimeters = new List<string>();
+
+            var extractedInput = input;
 
             if (delimeterIndex >= 0)
             {
             var matches = DelimeterRegex.Matches(input);
 
                 var delim = matches.OfType<Match>().Select(m => m.Groups["delimeter"].Value).Single();
-                input = matches.OfType<Match>().Select(m => m.Groups["value"].Value).Single();
+                extractedInput = matches.OfType<Match>().Select(m => m.Groups["value"].Value).Single();
                 delimeters.Add(delim);
             }
             else
@@ -58,7 +60,7 @@ namespace TddStringCalculator
                 delimeters.Add("\n");
             }
 
-            return delimeters;
+            return new Tuple<IEnumerable<string>, string>(delimeters, extractedInput);
         }
     }
 }
