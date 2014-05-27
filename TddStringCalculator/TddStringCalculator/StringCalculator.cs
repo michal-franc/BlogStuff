@@ -13,7 +13,7 @@ namespace TddStringCalculator
 
         private IEnumerable<string> DefaultDelimiters
         {
-            get{ return new[] {",", "\n"}; }
+            get { return new[] { ",", "\n" }; }
         }
 
         public int SumFromString(string input)
@@ -56,20 +56,10 @@ namespace TddStringCalculator
             if (delimeterIndex >= 0)
             {
                 var matches = DelimeterValueRegex.Matches(input);
-
-                var delim = this.ExtractRegexpGroup(matches, "delimeter");
                 extractedInput = this.ExtractRegexpGroup(matches, "value");
 
-                var singleDelims = SingleDelimeterRegex.Matches(delim).OfType<Match>().Select(x => x.Groups[1].Value).ToArray();
+                delimeters = this.ExtractSingleDelimiters(matches);
 
-                if (singleDelims.Any())
-                {
-                    delimeters.AddRange(singleDelims);
-                }
-                else
-                {
-                    delimeters.Add(delim);
-                }
             }
             else
             {
@@ -77,6 +67,22 @@ namespace TddStringCalculator
             }
 
             return new Tuple<IEnumerable<string>, string>(delimeters, extractedInput);
+        }
+
+        private List<string> ExtractSingleDelimiters(MatchCollection matches)
+        {
+            var delim = this.ExtractRegexpGroup(matches, "delimeter");
+
+            var singleDelims = SingleDelimeterRegex.Matches(delim).OfType<Match>().Select(x => x.Groups[1].Value).ToList();
+
+            if (singleDelims.Any())
+            {
+                return singleDelims;
+            }
+            else
+            {
+                return new List<string> { delim };
+            }
         }
 
         private string ExtractRegexpGroup(MatchCollection regexMatches, string groupName)
