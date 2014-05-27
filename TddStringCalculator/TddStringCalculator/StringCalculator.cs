@@ -11,6 +11,11 @@ namespace TddStringCalculator
 
         private readonly Regex SingleDelimeterRegex = new Regex("\\[(.?)\\]");
 
+        private IEnumerable<string> DefaultDelimiters
+        {
+            get{ return new[] {",", "\n"}; }
+        }
+
         public int SumFromString(string input)
         {
             if (string.IsNullOrWhiteSpace(input)) return 0;
@@ -68,8 +73,7 @@ namespace TddStringCalculator
             }
             else
             {
-                delimeters.Add(",");
-                delimeters.Add("\n");
+                delimeters.AddRange(this.DefaultDelimiters);
             }
 
             return new Tuple<IEnumerable<string>, string>(delimeters, extractedInput);
