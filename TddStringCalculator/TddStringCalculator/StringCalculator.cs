@@ -7,7 +7,9 @@ namespace TddStringCalculator
 {
     public class StringCalculator
     {
-        private readonly Regex DelimeterRegex = new Regex("//(?<delimeter>.*)\n(?<value>.*)", RegexOptions.Compiled);
+        private readonly Regex DelimeterValueRegex = new Regex("//(?<delimeter>.*)\n(?<value>.*)", RegexOptions.Compiled);
+
+        private readonly Regex SingleDelimeterRegex = new Regex("\\[(.?)\\]");
 
         public int SumFromString(string input)
         {
@@ -48,11 +50,21 @@ namespace TddStringCalculator
 
             if (delimeterIndex >= 0)
             {
-                var matches = DelimeterRegex.Matches(input);
+                var matches = DelimeterValueRegex.Matches(input);
 
                 var delim = this.ExtractRegexpGroup(matches, "delimeter");
                 extractedInput = this.ExtractRegexpGroup(matches, "value");
-                delimeters.Add(delim);
+
+                var singleDelims = SingleDelimeterRegex.Matches(delim).OfType<Match>().Select(x => x.Groups[1].Value).ToArray();
+
+                if (singleDelims.Any())
+                {
+                    delimeters.AddRange(singleDelims);
+                }
+                else
+                {
+                    delimeters.Add(delim);
+                }
             }
             else
             {
