@@ -9,7 +9,7 @@ namespace TddStringCalculator
     {
         private readonly Regex DelimeterValueRegex = new Regex("//(?<delimeter>.*)\n(?<value>.*)", RegexOptions.Compiled);
 
-        private readonly Regex SingleDelimeterRegex = new Regex("\\[(.?)\\]");
+        private readonly Regex SingleDelimeterRegex = new Regex("\\[(.+?)\\]");
 
         private IEnumerable<string> DefaultDelimiters
         {
