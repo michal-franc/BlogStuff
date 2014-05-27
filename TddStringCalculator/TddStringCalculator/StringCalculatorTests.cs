@@ -114,15 +114,21 @@ namespace TddStringCalculator
             Assert.That(actual, Is.EqualTo(expected));
         }
 
-        [Test]
-        public void Multiple_Delimeters_Test()
+        [TestCase(";;;","   ")]
+        [TestCase("x"," u")]
+        [TestCase("-----", "---123")]
+        [TestCase("123456789", "090()")]
+        [TestCase("\r", "12x")]
+        [TestCase("()()()", "^^&*")]
+        [TestCase("!@#$%^^&*()_+/|`~", "123456")]
+        public void Multiple_Delimeters_Test(string delimiter1, string delimeter2)
         {
             var calculator = new StringCalculator();
-            var value = "//[*][%]\n1*2%3";
+            var value = string.Format("//[{0}][{1}]\n1{0}2{1}3{0}4", delimiter1, delimeter2);
 
             var actual = calculator.SumFromString(value);
 
-            var expected = 6;
+            var expected = 10;
 
             Assert.That(actual, Is.EqualTo(expected));
         }
