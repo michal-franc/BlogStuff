@@ -105,5 +105,18 @@ namespace TddStringCalculator
 
             Assert.That(actual, Is.EqualTo(expected));
         }
+
+        [Test]
+        public void Multiple_Delimeters_Test()
+        {
+            var calculator = new StringCalculator();
+            var value = "//[*][%]\n1*2%3";
+
+            var actual = calculator.SumFromString(value);
+
+            var expected = 6;
+
+            Assert.That(actual, Is.EqualTo(expected));
+        }
     }
 }
